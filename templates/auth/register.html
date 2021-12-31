@@ -1,0 +1,21 @@
+{% include 'layouts/app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="login-form">
+    <form class="form" action="{%url 'register'%}" method="POST">
+        {% csrf_token %}
+        <input class="login__input" placeholder="Имя"  name="name">
+        <input class="login__input" placeholder="Фамилия"  name="surname">
+        <input class="login__input" placeholder="Почта"  name="email">
+        <input class="login__input" placeholder="Пароль"  type="password" name="password">
+        <button class="login__button">Регистрация</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+   
+</script>
+{% endblock %}

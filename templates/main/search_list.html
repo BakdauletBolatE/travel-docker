@@ -1,0 +1,41 @@
+{% include 'layouts/app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-background">
+    <div class="search-list">
+        <div style="margin-bottom:20px">
+           Найдено {{travelEvents|length}}
+        </div>
+        {% for item in travelEvents %}
+        <div class="search-list__item">
+            <div class="search-list__img">
+                <img src="{{item.travelCity.image.url}}" alt="">
+            </div>
+            <div class="search-list__content">
+                <h2 class="search-list__title">{{item.travelCity.name}}</h2>
+                <h2 class="search-list__pretitle">{{item.travelCity.city_name}}</h2>
+                <p class="search-list__date"> <span class="begin_date">Begin date</span>  {{item.start_date|date:"d M, Y"}}</p>
+                <p class="search-list__date"><span class="end_date">End date</span> {{item.end_date|date:"d M, Y"}}</p>
+            </div>
+            <form action="{% url 'createOrder' %}" method="POST">
+                {% csrf_token %}
+                <input name="travelEvent_id" type="hidden" value="{{item.id}}">
+                <button class="search-list__button">Купить</button>
+            </form>
+           
+            
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+  
+</script>
+{% endblock %}

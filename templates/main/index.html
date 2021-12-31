@@ -1,0 +1,173 @@
+{% include 'layouts/app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-background">
+    <form action="{% url 'search_view' %}" method="POST" class="search-panel">
+        {% csrf_token %}
+        <div class="search-panel__item">
+            <select name="country_id" class="search-panel__input" placeholder="Country">
+                {% for item in country %}
+                <option style="color: black;" value="{{item.id}}">{{item.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="search-panel__item">
+            <input name="date" type='date' class="search-panel__input" value="2021-12-12"></input>
+        </div>
+        <div class="search-panel__item">
+            <button type="submit" class="search-panel__button" href="">Search</button>
+        </div>
+    </form>
+</div>
+<div class="popular container margin-default">
+    <h2 class="popular__title margin-default-mini">Popular Destination</h2>
+    <div class="popular__slider-wrapper">
+        <div class="swiper popular__slider">
+            <div class="swiper-wrapper">
+                {% for item in travelCities %}
+                <div class="swiper-slide">
+                    <a href="#" class="popular__item">
+                        <div class="popular__item-img">
+                            <img src="{{item.image.url}}" alt="">
+                        </div>
+                        <div class="popular__item-content">
+                            <div class="popular__item-top-title">
+                                <h3 class="popular__item-title">{{item.name}}</h3>
+                                <span class="popular__item-price">$ {{item.price}}</span>
+                            </div>
+                            <h3 class="popular__item-pretitle">{{item.city_name}}</h3>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+</div>
+<div class="gallery container margin-default">
+    <h2 class="popular__title margin-default-mini">Gallery</h2>
+    <div class="gallery__row">
+        {% for item in galleries %}
+        <div class="gallery__item">
+            <div class="gallery__item-img">
+                <img src="{{item.image.url}}" alt="">
+            </div>
+            <div class="gallery__item-title">
+                {{item.name}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="ratings margin-default">
+    <div class="ratings__row container">
+        <div class="rating__item">
+            <h2 class="rating__item-title">3,456</h2>
+            <p class="rating__item-p"># of Travels</p>
+        </div>
+        <div class="rating__item">
+            <h2 class="rating__item-title">10,456</h2>
+            <p class="rating__item-p"># of Clients</p>
+        </div>
+        <div class="rating__item">
+            <h2 class="rating__item-title">100</h2>
+            <p class="rating__item-p"># of Employees</p>
+        </div>
+        <div class="rating__item">
+            <h2 class="rating__item-title">14</h2>
+            <p class="rating__item-p"># of Countries</p>
+        </div>
+    </div>
+</div>
+<div class="gallery container margin-default">
+    <h2 class="popular__title margin-default-mini">Our Services</h2>
+    <div class="gallery__row gallery__row2">
+        <div class="gallery__item gallery__item2">
+            <div class="gallery__item-img">
+                <img src="{% static 'images/1.png' %}" alt="">
+            </div>
+            <div class="gallery__item-title">
+                Turkestan
+            </div>
+        </div>
+        <div class="gallery__item">
+            <div class="gallery__item-img">
+                <img src="{% static 'images/2.png' %}" alt="">
+            </div>
+            <div class="gallery__item-title">
+                Burabay National Park
+            </div>
+        </div>
+        <div class="gallery__item">
+            <div class="gallery__item-img">
+                <img src="{% static 'images/3.png' %}" alt="">
+            </div>
+            <div class="gallery__item-title">
+                Arystan-Bab
+            </div>
+        </div>
+        <div class="gallery__item">
+            <div class="gallery__item-img">
+                <img src="{% static 'images/1.png' %}" alt="">
+            </div>
+            <div class="gallery__item-title">
+                Turkestan
+            </div>
+        </div>
+        <div class="gallery__item">
+            <div class="gallery__item-img">
+                <img src="{% static 'images/2.png' %}" alt="">
+            </div>
+            <div class="gallery__item-title">
+                Burabay National Park
+            </div>
+        </div>
+        <div class="gallery__item">
+            <div class="gallery__item-img">
+                <img src="{% static 'images/3.png' %}" alt="">
+            </div>
+            <div class="gallery__item-title">
+                Arystan-Bab
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    const swiper = new Swiper('.swiper', {
+        direction: 'horizontal',
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            // when window width is >= 320px
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+            // when window width is >= 480px
+            480: {
+                slidesPerView: 1,
+                spaceBetween: 10
+            },
+            // when window width is >= 640px
+            640: {
+                slidesPerView: 3,
+                spaceBetween: 50
+            }
+        }
+    });
+</script>
+{% endblock %}
