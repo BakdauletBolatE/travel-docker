@@ -1,0 +1,127 @@
+{% extends 'layouts/app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="detail">
+    <div class="container">
+        <div class="detail__header">
+            <div class="detail__header-top">
+                <div class="popular__item-title">{{item.travelCity.name}}</div>
+                <div class="popular__item__country"> <span><img
+                            style="object-fit: cover; width: 20px; height: 20px; border-radius: 20px; margin-right: 8px;"
+                            src="{{ item.travelCity.country.icon.url}}" alt=""></span> {{item.travelCity.country.name}}
+                </div>
+            </div>
+            <div class="detail__images">
+                <div class="detail__image-container">
+                    <img class="detail__image" src="{{ item.travelCity.image.url }}" alt="">
+                    <div class="detail__image--shadow"></div>
+                </div>
+                <div class="detail__image-container">
+                    <img class="detail__image" src="{{ item.travelCity.image.url }}" alt="">
+                    <div class="detail__image--shadow"></div>
+                </div>
+            </div>
+            <div class="tabs" id="tabs">
+                <div data-from="main" class="tab__items active">Информация</div>
+                <div data-from="explore" class="tab__items">Авиа перелеты</div>
+            </div>
+            <div class="tab__content">
+                <div data-to="main" class="tab__body active">
+                    <div class="tab__content-main">
+                        <div class="tab__title">Подробнее</div>
+                        <div class="tab__desc">{{ item.travelCity.description }}</div>
+                        <div class="tab__title">Где можно переночевать ?</div>
+                        <div class="tab__grid">
+                            {% for hotel in item.travelCity.hotels.all %}
+                            <a href="{{hotel.link_to}}" class="tab__grid-item">
+                                <img class="tab__grid-item-image" src="{{hotel.image.url}}" />
+                                <div class="tab__grid-item-content">
+                                    <div class="tab__title">{{hotel.name}}</div>
+                                    <div class="tab_desc">{{hotel.description}}</div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div data-to="explore" class="tab__body">
+                    <div class="tab__content-main">
+                        <div class="tab__title">Авиа перелеты</div>
+                        <div class="avia">
+                            {% for avia in item.travelCity.flights.all %}
+                            <a href="{{avia.link_to}}" class="avia__item">
+                                <div class="avia__item-left">
+                                    <img width="42px" src="{{avia.company.image.url}}" class="avia__item-logo"></img>
+                                    <div>{{ avia.company.name }}</div>
+                                    <div class="avia__item-date">
+                                        <div style="font-weight:700;">
+                                            {{ avia.start_time }}
+                                        </div>
+                                        <div style="color: rgba(0, 0, 0, 0.44);
+                                        font-size: 1.2rem;
+                                        font-weight: 500;">
+                                            {{ avia.from_to }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    {{ avia.wait_time}}
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar">
+                    <div class="sidebar__content">
+                        <div class="sidebar__content-header">
+                            <div class="">2 ночей</div>
+                            <div class="">{{item.travelCity.price}} тенге / за человека</div>
+                        </div>
+                        <div class="sidebar__content-body">
+                            <span class="material-icons" style="color: #02c39a; margin-right: 1rem;">
+                                calendar_today
+                            </span>
+                            <div class="">
+                                <span>{{item.start_date|date:"M d"}} - {{item.end_date|date:"M d"}}</span>
+                            </div>
+                        </div>
+                        <form method="POST" action="{% url 'createOrder' %}" style="width: 100%;">
+                            {% csrf_token %}
+                            <input type="hidden" name="travelEvent_id" value="{{item.id}}">
+                            <button type="submit" class="btn" style="display: block; text-align: center; width: 100%;">
+                                Купить
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const tabItems = document.querySelectorAll('.tab__items');
+    const tabContents = document.querySelectorAll('.tab__body');
+    const clearTabAndTabItems = () => {
+        tabItems.forEach(item => { item.classList.remove('active'); })
+        tabContents.forEach(item => { item.classList.remove('active'); })
+    }
+    tabItems.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            const target = e.target;
+            const datatarget = target.dataset.from;
+            clearTabAndTabItems();
+            const elem = document.querySelector('[data-to=' + datatarget + ']');
+            target.classList.add('active');
+            elem.classList.add('active');
+        })
+    })
+</script>
+{% endblock %}

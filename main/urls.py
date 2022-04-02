@@ -1,8 +1,11 @@
-from .views import main,search_view,order_event,login_user,logout_view,my_orders,delete_my_order,register_user
+from .views import (main,search_view,order_event,login_user,
+                logout_view,my_orders,delete_my_order,
+                register_user,singleView)
 from django.urls import path
 
 urlpatterns = [
     path('',main,name="home"),
+    path('post/<int:pk>/',singleView,name='singleView'),
     path('login/',login_user,name="login"),
     path('register/',register_user,name="register"),
     path('logout/',logout_view,name="logout"),

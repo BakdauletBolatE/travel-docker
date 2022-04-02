@@ -1,45 +1,86 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
-        />
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <title>Travel - саяхат</title>
 </head>
+
 <body>
-    <div>
-    <header class="header container">
-        <div class="header__logo">
-            <h2><a class="header__logo-text" href="/">Travel</a></h2>
+    <header class="header">
+        <div class="header__row container">
+            <div class="header__logo">
+                <a href="/" class="header__logo-text">Саяхатта</a>
+            </div>
+            <nav class="header__navbar">
+                <ul class="header__menu ">
+                    <li class="header__menu-item"><a href="/" class="header__menu-link">Главная</a></li>
+                    <li class="header__menu-item"><a href="{% url 'orders' %}" class="header__menu-link">Мой заказы</a></li>
+                    <li class="header__menu-item"><a href="" class="header__menu-link">Контакты</a></li>
+                </ul>
+                {% if request.user.is_authenticated %}
+                <ul class="header__auth-menu header__menu">
+                    <li class="header__auth-menu-item margin-right2"><a class="btn">{{request.user.username}}</a></li>
+                    <li class="header__auth-menu-item margin-right2"><a href="{% url 'logout' %}" class="btn">Выйти</a></li>
+                </ul>
+                {% else %}
+                <ul class="header__auth-menu header__menu">
+                    <li class="header__auth-menu-item margin-right2"><a href="{% url 'login' %}" class="btn">Войти</a></li>
+                    <li class="header__auth-menu-item"><a href="{% url 'register' %}" class="btn">Регистрация</a></li>
+                </ul>
+                {% endif %}
+            </nav>
+            
+            <div id="burger_open" class="burger">
+                <span  class="material-icons" style="color:white">
+                    menu
+                </span>
+            </div>
         </div>
-        <nav class="header__navbar">
-            <div class="header__navbar-item"><a class="header__navbar-link" href="/">Home</a></div>
-            {% if request.user.is_authenticated %}
-            <div class="header__navbar-item"><a class="header__navbar-link" >{{request.user.username}}</a></div>
-            <div class="header__navbar-item"><a class="header__navbar-link" href="{% url 'logout' %}">Logout</a></div>
-            <div class="header__navbar-item"><a class="header__navbar-link" href="{% url 'orders' %}">My Orders</a></div>
-            {% else %}
-            <div class="header__navbar-item"><a class="header__navbar-link" href="{% url 'login' %}">Login</a></div>
-            <div class="header__navbar-item"><a class="header__navbar-link" href="{% url 'register' %}">Register</a></div>
-            {% endif %}
-            <div class="header__navbar-item"><a class="header__navbar-link" href="#">Contact</a></div>
-        </nav>
+
     </header>
     {% block content %}
-    
     {% endblock %}
+    
+    <footer class="footer">
+        <div class="footer__row container">
+            <div style="display:flex; align-items: center;">
+                <div class="footer__logo">Саяхатта</div>
+                <div class="footer__item" style="color:#828282; font-size: 13px;">Контакты</div>
+            </div>
+            <div style="color:#828282; font-size: 13px;">
+                © 2022 Саяхатта, Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
     {% block script %}
     {% endblock %}
 
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-    </div>
+    <script>
+       
+    
+        const burger = document.getElementById('burger_open');
+        const menus = document.querySelectorAll('.header__navbar');
+        
+        burger.addEventListener(('click'),()=>{
+            console.log('clicked')
+            menus.forEach(navbar => {
+                console.log(navbar);
+                navbar.classList.toggle('active');
+            });
+        });
+       
+    </script>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
 from django.http.request import QueryDict
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Country, TravelCity,Gallery,TravelEvent,UserEvent
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
@@ -10,15 +10,24 @@ from django.contrib.auth.decorators import login_required
 
 def main(request):
     galleries = Gallery.objects.all()
-    travelCities = TravelCity.objects.all()
+    travelEvents = TravelEvent.objects.all()
     country = Country.objects.all()
 
     data = {
         'galleries': galleries,
         'country':country,
-        'travelCities':travelCities
+        'travelEvents':travelEvents
     }
     return render(request,'main/index.html',data)
+
+def singleView(request,pk):
+
+    travelEvent = get_object_or_404(TravelEvent,id=pk)
+
+    data = {
+            "item": travelEvent
+        }
+    return render(request,'main/single.html',data)
 
 def search_view(request):
 

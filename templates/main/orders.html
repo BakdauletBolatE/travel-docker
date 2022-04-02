@@ -1,28 +1,32 @@
-{% include 'layouts/app.html' %}
+{% extends 'layouts/app.html' %}
 {% load static %}
 
 {% block content %}
-<div class="main-background">
-    <div class="search-list">
-        <div style="margin-bottom:20px">
-         Заказов: {{orders|length}}
-        </div>
-        {% for item in orders %}
-        <div class="search-list__item">
-            <div class="search-list__img">
-                <img src="{{item.event.travelCity.image.url}}" alt="">
+<div class="orders">
+    <div class="container">
+        <div class="orders__grid">
+            <div style="margin-bottom:20px">
+             Заказов: {{orders|length}}
             </div>
-            <div class="search-list__content">
-                <h2 class="search-list__title">{{item.event.travelCity.name}}</h2>
-                <h2 class="search-list__pretitle">{{item.event.travelCity.city_name}}</h2>
-                <p class="search-list__date"> <span class="begin_date">Begin date</span>  {{item.event.start_date|date:"d M, Y"}}</p>
-                <p class="search-list__date"><span class="end_date">End date</span> {{item.event.end_date|date:"d M, Y"}}</p>
-            </div>    
-            <a href="{% url 'deleteOrder' item.id %}">Удалить из корзины</a>        
+            {% for item in orders %}
+            <div class="orders__item">
+                <div class="orders__img">
+                    <img src="{{item.event.travelCity.image.url}}" alt="">
+                </div>
+                <div class="orders__content">
+                    <h2 class="orders__title">{{item.event.travelCity.name}}</h2>
+                    <p class="orders__date"> <span class="material-icons" style="color:#02c39a; margin-right: 1rem;">calendar_today</span>  <span>{{item.event.start_date|date:"d M"}} - {{item.event.end_date|date:"d M"}}</span></p>
+                    <div>
+                        <a style="text-decoration: none; color: white; background-color: #d52f2f; display: block; border-radius: 5px; padding: 10px 20px; margin:1rem 0;" href="{% url 'deleteOrder' item.id %}">Удалить из корзины</a>   
+                    </div>   
+                </div>          
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+   
 </div>
+    
 
 
 

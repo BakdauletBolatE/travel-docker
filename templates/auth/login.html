@@ -1,4 +1,4 @@
-{% include 'layouts/app.html' %}
+{% extends 'layouts/app.html' %}
 {% load static %}
 
 {% block content %}
@@ -6,8 +6,8 @@
     <form class="form" action="{%url 'login'%}" method="POST">
         {% csrf_token %}
         <input class="login__input" placeholder="Имя"  name="name">
-        <input class="login__input" placeholder="Пароль"  type="password" name="password">
-        <button class="login__button">Логин</button>
+        <input class="login__input margin-top25" placeholder="Пароль"  type="password" name="password">
+        <button class="btn margin-top25">Логин</button>
     </form>
 </div>
 {% endblock %}
