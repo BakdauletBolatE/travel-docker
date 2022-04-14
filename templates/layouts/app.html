@@ -22,7 +22,9 @@
             <nav class="header__navbar">
                 <ul class="header__menu ">
                     <li class="header__menu-item"><a href="/" class="header__menu-link">Главная</a></li>
+                    {% if request.user.is_authenticated %}
                     <li class="header__menu-item"><a href="{% url 'orders' %}" class="header__menu-link">Мой заказы</a></li>
+                    {% endif %}
                     <li class="header__menu-item"><a href="" class="header__menu-link">Контакты</a></li>
                 </ul>
                 {% if request.user.is_authenticated %}
