@@ -133,9 +133,29 @@ def my_orders(request):
 
     aOrders = []
 
+    hotelPrice = 0
+    flightToCityPrice = 0
+    travelCityPrice = 0
+    try:
+        hotelPrice = order.hotel.price
+    except Exception:
+        print('e')
+
+    try:
+        flightToCityPrice = order.flightToCity.price
+    except Exception:
+        print('e')
+
+    try:
+        travelCityPrice = order.event.travelCity.price
+    except Exception:
+        print('e')
+
+    total = hotelPrice + flightToCityPrice + travelCityPrice
+
     for order in orders:
         aOrders.append({
-            'total': order.hotel.price+order.flightToCity.price+order.event.travelCity.price,
+            'total': total,
             'order': order
         })
 
