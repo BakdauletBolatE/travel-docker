@@ -97,8 +97,8 @@ def order_event(request):
     if request.method == 'POST':
 
         travelEvent_id = request.POST['travelEvent_id']
-        hotel_id = request.POST['hotel_id']
-        avia_id = request.POST['avia_id']
+        hotel_id = request.POST.get('hotel_id')
+        avia_id = request.POST.get('avia_id')
         user_id = request.user.id
 
         exists = UserEvent.objects.filter(event_id=travelEvent_id,user_id=user_id)
