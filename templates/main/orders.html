@@ -11,13 +11,17 @@
             {% for item in orders %}
             <div class="orders__item">
                 <div class="orders__img">
-                    <img src="{{item.event.travelCity.image.url}}" alt="">
+                    <img src="{{item.order.event.travelCity.image.url}}" alt="">
                 </div>
                 <div class="orders__content">
-                    <h2 class="orders__title">{{item.event.travelCity.name}}</h2>
-                    <p class="orders__date"> <span class="material-icons" style="color:#02c39a; margin-right: 1rem;">calendar_today</span>  <span>{{item.event.start_date|date:"d M"}} - {{item.event.end_date|date:"d M"}}</span></p>
+                    <h2 class="orders__title">{{item.order.event.travelCity.name}} ₸</h2>
+                    <p class="orders__desc">Цена за отел - {{item.order.hotel.price}} ₸</p>  
+                    <p class="orders__desc">Цена за перелет - {{item.order.flightToCity.price}} ₸</p>
+                    <p class="orders__desc">Цена за тур - {{item.order.event.travelCity.price}} ₸</p>
+                    <p class="orders__desc" id="total-price-in-order">Общая цена {{item.total}} ₸</p>
+                    <p class="orders__date"> <span class="material-icons" style="color:#02c39a; margin-right: 1rem;">calendar_today</span>  <span>{{item.order.event.start_date|date:"d M"}} - {{item.order.event.end_date|date:"d M"}}</span></p>
                     <div>
-                        <a style="text-decoration: none; color: white; background-color: #d52f2f; display: block; border-radius: 5px; padding: 10px 20px; margin:1rem 0;" href="{% url 'deleteOrder' item.id %}">Удалить из корзины</a>   
+                        <a style="text-decoration: none; color: white; background-color: #d52f2f; display: block; border-radius: 5px; padding: 10px 20px; margin:1rem 0;" href="{% url 'deleteOrder' item.order.id %}">Удалить из корзины</a>   
                     </div>   
                 </div>          
             </div>
@@ -34,6 +38,7 @@
 
 {% block script %}
 <script>
-  
+   
+    
 </script>
 {% endblock %}

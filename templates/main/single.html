@@ -24,55 +24,59 @@
             </div>
             <div class="tabs" id="tabs">
                 <div data-from="main" class="tab__items active">Информация</div>
-                <div data-from="explore" class="tab__items">Авиа перелеты</div>
             </div>
             <div class="tab__content">
                 <div data-to="main" class="tab__body active">
                     <div class="tab__content-main">
                         <div class="tab__title">Подробнее</div>
                         <div class="tab__desc">{{ item.travelCity.description }}</div>
-                        <div class="tab__title">Где можно переночевать ?</div>
+                        <div class="tab__title">Выбрать гостиницу</div>
                         <div class="tab__grid">
                             {% for hotel in item.travelCity.hotels.all %}
-                            <a href="{{hotel.link_to}}" class="tab__grid-item">
+                            <div style="
+                            display:flex;
+                            align-items:center;
+                            ">
+                                <input data-name="{{hotel.name}}" data-price="{{hotel.price}}" type="radio" id="hotel{{hotel.id}}"
+                                name="hotel_id" class="hotel__inputs" value="{{hotel.id}}">
+                            <label style="width:100%; margin-left:10px" for="hotel{{hotel.id}}"><div class="tab__grid-item">
                                 <img class="tab__grid-item-image" src="{{hotel.image.url}}" />
                                 <div class="tab__grid-item-content">
                                     <div class="tab__title">{{hotel.name}}</div>
+                                    <div class="tab__price">{{hotel.price}} ₸</div>
                                     <div class="tab_desc">{{hotel.description}}</div>
                                 </div>
-                            </a>
+                            </div></label>
+                            </div>
+                            
                             {% endfor %}
                         </div>
-                    </div>
-                </div>
-                <div data-to="explore" class="tab__body">
-                    <div class="tab__content-main">
-                        <div class="tab__title">Авиа перелеты</div>
+                        <div class="tab__title">Выбрать авиа перелет</div>
                         <div class="avia">
                             {% for avia in item.travelCity.flights.all %}
-                            <a href="{{avia.link_to}}" class="avia__item">
-                                <div class="avia__item-left">
-                                    <img width="42px" src="{{avia.company.image.url}}" class="avia__item-logo"></img>
-                                    <div>{{ avia.company.name }}</div>
-                                    <div class="avia__item-date">
-                                        <div style="font-weight:700;">
-                                            {{ avia.start_time }}
-                                        </div>
-                                        <div style="color: rgba(0, 0, 0, 0.44);
-                                        font-size: 1.2rem;
-                                        font-weight: 500;">
-                                            {{ avia.from_to }}
-                                        </div>
+                            <div style="
+                            display:flex;
+                            align-items:center;
+                            ">
+                            <input data-price="{{avia.price}}" data-type="{{avia.type}}" class="avia__input" type="radio" id="avia{{avia.id}}"
+                            name="avia_id" value="{{avia.id}}">
+                            <label style="width:100%; margin-left:10px" for="avia{{avia.id}}">
+                                <div  class="avia__item">
+                                    <div class="avia__item-left">
+                                        <div>{{ avia.price }} ₸</div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        {{ avia.type}}
                                     </div>
                                 </div>
-                                <div style="text-align: right;">
-                                    {{ avia.wait_time}}
-                                </div>
-                            </a>
+                            </label>
+                            </div>
+                            
                             {% endfor %}
                         </div>
                     </div>
                 </div>
+             
                 <div class="sidebar">
                     <div class="sidebar__content">
                         <div class="sidebar__content-header">
@@ -90,6 +94,20 @@
                         <form method="POST" action="{% url 'createOrder' %}" style="width: 100%;">
                             {% csrf_token %}
                             <input type="hidden" name="travelEvent_id" value="{{item.id}}">
+                            <div class="ticket" id="ticket">
+                            
+                            </div>
+                            <div class="ticket" id="hotel">
+                            
+                            </div>
+                            <div class="ticket" id="tour">
+                                <div class="ticket__title">Цена за тур</div>
+                                <div class="ticket__price">{{item.travelCity.price}}</div>
+                            </div>
+                            <div class="ticket" id="total">
+                                <div class="ticket__title">Общий</div>
+                                <div class="ticket__price">{{item.travelCity.price}}</div>
+                            </div>
                             <button type="submit" class="btn" style="display: block; text-align: center; width: 100%;">
                                 Купить
                             </button>
@@ -107,6 +125,61 @@
 
 {% block script %}
 <script>
+
+    const avia_inputs = document.querySelectorAll('.avia__input');
+    const hotel_inputs = document.querySelectorAll('.hotel__inputs');
+
+    const ticket = document.getElementById('ticket');
+    const hotel = document.getElementById('hotel');
+    const total = document.getElementById('total');
+
+    const calculate = () => {
+        const aviaPrice = document.getElementById('avia_id')?.innerText;
+        const hotelPrice = document.getElementById('hotel_id')?.innerText;
+        
+        const parsedAvia = aviaPrice == undefined ? 0 : parseInt(aviaPrice);
+        const parsedHotel = hotelPrice == undefined ? 0 : parseInt(hotelPrice);
+
+        const price = parsedAvia + parsedHotel + parseInt("{{item.travelCity.price}}");
+        console.log(price);
+        return price;
+    }
+
+
+    avia_inputs.forEach(item=>{
+        item.addEventListener('change', (e)=>{
+       
+            ticket.innerHTML = `
+                                <div class="ticket__title">${e.target.dataset.type} билет</div>
+                                <div id="avia_id" value=${e.target.dataset.price} class="ticket__price">${e.target.dataset.price}</div>
+                                <input type="hidden" name="avia_id" value="${e.target.value}"">
+
+            `;
+
+            total.innerHTML = `
+                                <div class="ticket__title">Общий</div>
+                                <div class="ticket__price">${calculate()}</div>
+            `
+        });
+    });
+
+    hotel_inputs.forEach(item=>{
+        item.addEventListener('change', (e)=>{
+   
+            hotel.innerHTML = `
+                                <div class="ticket__title">Гостиница ${e.target.dataset.name}</div>
+                                <div id="hotel_id" value=${e.target.dataset.price} class="ticket__price">${e.target.dataset.price}</div>
+                                <input type="hidden" name="hotel_id" value="${e.target.value}"">
+
+            `;
+            total.innerHTML = `
+                                <div class="ticket__title">Общий</div>
+                                <div class="ticket__price">${calculate()}</div>
+            `;
+            
+        });
+    });
+
     const tabItems = document.querySelectorAll('.tab__items');
     const tabContents = document.querySelectorAll('.tab__body');
     const clearTabAndTabItems = () => {

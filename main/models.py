@@ -42,6 +42,7 @@ class HotelToCity(models.Model):
     description = models.TextField(max_length=255,verbose_name='Описание',blank=True,null=True)
     star = models.IntegerField(default=0)
     image = models.ImageField(upload_to='Hotel/')
+    price = models.IntegerField(default=0)
     city = models.ForeignKey(TravelCity,on_delete=models.CASCADE, related_name='hotels')
     link_to = models.CharField(null=True,blank=True,max_length=255)
 
@@ -69,17 +70,27 @@ class FlightCompany(models.Model):
         verbose_name = 'Компания'
         verbose_name_plural = 'Компаний'
 
+
+
+
 class FlightToCity(models.Model):
 
-    company = models.ForeignKey(FlightCompany,on_delete=models.CASCADE)
-    wait_time = models.CharField(null=True,blank=True,max_length=255)
-    start_time = models.CharField(null=True,blank=True,max_length=255)
-    from_to = models.CharField(null=True,blank=True,max_length=255)
+    TYPE = [
+        ('Бизнес', 'Бизнес'),
+        ('Эконом', 'Эконом'),
+    ]
+
+    type = models.CharField(
+        max_length=10,
+        choices=TYPE,
+        default='Эконом',
+    )
+    price = models.IntegerField(default=0)
     link_to = models.CharField(null=True,blank=True,max_length=255)
     city = models.ForeignKey(TravelCity,on_delete=models.CASCADE, related_name='flights')
 
     def __str__(self) -> str:
-        return f"{self.company.name} - {self.wait_time} - {self.city.name}"
+        return f"{self.city.name}: {self.type} - {self.price} ₸"
 
 
     class Meta:
@@ -114,6 +125,8 @@ class Gallery(models.Model):
 
 class UserEvent(models.Model):
     event = models.ForeignKey(TravelEvent,on_delete=models.CASCADE,verbose_name='Город')
+    hotel = models.ForeignKey(HotelToCity,on_delete=models.CASCADE,null=True,blank=True)
+    flightToCity = models.ForeignKey(FlightToCity,on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='orders',verbose_name='Пользователь')
     created_at = models.DateTimeField(auto_now=True,null=True,blank=True,verbose_name='Дата создание')
 

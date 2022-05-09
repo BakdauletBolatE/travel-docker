@@ -97,6 +97,8 @@ def order_event(request):
     if request.method == 'POST':
 
         travelEvent_id = request.POST['travelEvent_id']
+        hotel_id = request.POST['hotel_id']
+        avia_id = request.POST['avia_id']
         user_id = request.user.id
 
         exists = UserEvent.objects.filter(event_id=travelEvent_id,user_id=user_id)
@@ -107,12 +109,12 @@ def order_event(request):
 
         order = UserEvent.objects.create(
             user_id = user_id,
-            event_id = travelEvent_id
+            event_id = travelEvent_id,
+            hotel_id = hotel_id,
+            flightToCity_id = avia_id
         )
 
         order.save()
-
-        print(order)
 
         return redirect('orders')
 
@@ -127,12 +129,19 @@ def delete_my_order(request,id):
 def my_orders(request):
 
     user = request.user
-    orders = user.orders.all()
+    orders = list(user.orders.all())
 
-    print(orders)
+    aOrders = []
+
+    for order in orders:
+        aOrders.append({
+            'total': order.hotel.price+order.flightToCity.price+order.event.travelCity.price,
+            'order': order
+        })
+
 
     data = {
-        'orders': orders
+        'orders': aOrders
     }
 
     return render(request,'main/orders.html',data)
