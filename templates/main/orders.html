@@ -15,9 +15,15 @@
                 </div>
                 <div class="orders__content">
                     <h2 class="orders__title">{{item.order.event.travelCity.name}} ₸</h2>
+                    {% if item.order.hotel.price %}
                     <p class="orders__desc">Цена за отел - {{item.order.hotel.price}} ₸</p>  
+                    {% endif %}
+                    {% if item.order.flightToCity.price %}
                     <p class="orders__desc">Цена за перелет - {{item.order.flightToCity.price}} ₸</p>
+                    {% endif %}
+                    {% if item.order.event.travelCity.price %}
                     <p class="orders__desc">Цена за тур - {{item.order.event.travelCity.price}} ₸</p>
+                    {% endif %} 
                     <p class="orders__desc" id="total-price-in-order">Общая цена {{item.total}} ₸</p>
                     <p class="orders__date"> <span class="material-icons" style="color:#02c39a; margin-right: 1rem;">calendar_today</span>  <span>{{item.order.event.start_date|date:"d M"}} - {{item.order.event.end_date|date:"d M"}}</span></p>
                     <div>
