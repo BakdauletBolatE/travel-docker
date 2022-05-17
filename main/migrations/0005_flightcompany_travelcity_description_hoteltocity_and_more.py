@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Отел',
-                'verbose_name_plural': 'Отелы',
+                'verbose_name_plural': 'Отели',
             },
         ),
         migrations.CreateModel(

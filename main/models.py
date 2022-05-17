@@ -32,7 +32,7 @@ class TravelCity(models.Model):
 
     class Meta:
         verbose_name = 'Город'
-        verbose_name_plural = 'Городы'
+        verbose_name_plural = 'Города'
 
 
 
@@ -51,7 +51,7 @@ class HotelToCity(models.Model):
 
     class Meta:
         verbose_name = 'Отел'
-        verbose_name_plural = 'Отелы'
+        verbose_name_plural = 'Отели'
 
 
 
@@ -68,7 +68,7 @@ class FlightCompany(models.Model):
 
     class Meta:
         verbose_name = 'Компания'
-        verbose_name_plural = 'Компаний'
+        verbose_name_plural = 'Компании'
 
 
 
@@ -94,8 +94,8 @@ class FlightToCity(models.Model):
 
 
     class Meta:
-        verbose_name = 'Авияперелет'
-        verbose_name_plural = 'Авияперелеты'
+        verbose_name = 'Авиаперелет'
+        verbose_name_plural = 'Авиаперелеты'
 
 
 class TravelEvent(models.Model):
@@ -121,7 +121,7 @@ class Gallery(models.Model):
     
     class Meta:
         verbose_name = 'Галерея'
-        verbose_name_plural = 'Галерей'
+        verbose_name_plural = 'Галерея'
 
 class UserEvent(models.Model):
     event = models.ForeignKey(TravelEvent,on_delete=models.CASCADE,verbose_name='Город')
