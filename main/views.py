@@ -31,17 +31,14 @@ def singleView(request,pk):
 
 def search_view(request):
 
-    travelEvents = QueryDict()
-
     if request.method == 'POST':
 
-        country_id = request.POST['country_id']
-        date = request.POST['date']
+        name = request.POST['name']
 
-        travelEvents = TravelEvent.objects.filter(travelCity__country__id=country_id,end_date__gt=date).all()
+        travelCities = TravelEvent.objects.filter(travelCity__name__contains=name)
     
         data = {
-            "travelEvents": travelEvents
+            "travelCities": travelCities
         }
         return render(request,'main/search_list.html',data)
     

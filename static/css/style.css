@@ -570,6 +570,36 @@ body{
     font-weight: 500;
 }
 
+
+.search-list{
+    padding-top: 120px;
+}
+
+.search_input{
+    width: 100%;
+    border: none;
+    background-color: rgb(241, 241, 241);
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 20px;
+}
+
+.search_form-btn{
+    top: 50%;
+    transform: translateY(-50%);
+    right:10px;
+    position: absolute;
+}
+
+.search_input:focus{
+    outline: none;
+    font-size: 20px;
+}
+
+.search_form-input{
+    position: relative;
+}
+
 @media screen and (max-width:992px) {
     .header__navbar {
         padding: 0px 20px;

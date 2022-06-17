@@ -2,31 +2,43 @@
 {% load static %}
 
 {% block content %}
-<div class="main-background">
+<div class="container">
     <div class="search-list">
-        <div style="margin-bottom:20px">
-           Найдено {{travelEvents|length}}
-        </div>
-        {% for item in travelEvents %}
-        <div class="search-list__item">
-            <div class="search-list__img">
-                <img src="{{item.travelCity.image.url}}" alt="">
+       
+    
+        <form class="search_form-input" action="{% url 'search_view' %}" method="POST">
+            {% csrf_token %}
+            <input name="name" placeholder="Напишите место, где хотите путешествовать ..." type="text" class="search_input">
+            <button  class="btn search_form-btn">Искать</button>
+        </form>
+        
+        {% if travelCities|length > 0 %}
+        <div style="margin:20px">
+            Найдено {{travelCities|length}}
+         </div>
+        
+         {% for event in travelCities %}
+         <a href="{% url 'singleView' event.id %}" class="popular__item">
+            <img src="{{ event.travelCity.image.url }}" class="popular__item-img"></img>
+            <div class="popular__item-content">
+                <div class="popular__item-title">{{event.travelCity.name}}</div>
+                <div class="popular__item__country"> <span><img style="object-fit: cover; width: 20px; height: 20px; border-radius: 20px; margin-right: 8px;" src="{{ event.travelCity.country.icon.url}}" alt=""></span> {{event.travelCity.country.name}}</div>
+               
+                <div class="divider"></div>
+
+                <div class="popular__item-footer">
+                   <div style="display:flex; align-items:center">
+                    <span class="material-icons" style="color: #02c39a; margin-right: 10px; font-size: 16px;">
+                        calendar_today
+                        </span>
+                        <div class="popular__item-footer-title"><span>{{event.start_date|date:"M d"}} - {{event.end_date|date:"M d"}}</span>  •  2 ночей</div>
+                   </div>
+                   <div class="popular__item-footer-price">₸ {{ event.travelCity.price }}</div>
+                </div>
             </div>
-            <div class="search-list__content">
-                <h2 class="search-list__title">{{item.travelCity.name}}</h2>
-                <h2 class="search-list__pretitle">{{item.travelCity.city_name}}</h2>
-                <p class="search-list__date"> <span class="begin_date">Begin date</span>  {{item.start_date|date:"d M, Y"}}</p>
-                <p class="search-list__date"><span class="end_date">End date</span> {{item.end_date|date:"d M, Y"}}</p>
-            </div>
-            <form action="{% url 'createOrder' %}" method="POST">
-                {% csrf_token %}
-                <input name="travelEvent_id" type="hidden" value="{{item.id}}">
-                <button class="search-list__button">Купить</button>
-            </form>
-           
-            
-        </div>
-        {% endfor %}
+        </a>
+         {% endfor %}
+         {% endif %}
     </div>
 </div>
 
