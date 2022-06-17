@@ -21,7 +21,7 @@ class Country(models.Model):
 class TravelCity(models.Model):
 
     name = models.CharField(max_length=255,verbose_name='Название')
-    description = models.TextField(max_length=255,verbose_name='Описание')
+    description = models.TextField(verbose_name='Описание')
     city_name = models.CharField(max_length=255,verbose_name='Название города')
     image = models.ImageField(upload_to='City/',verbose_name='Фотография города')
     price = models.IntegerField(verbose_name='Цена')
@@ -39,7 +39,7 @@ class TravelCity(models.Model):
 
 class HotelToCity(models.Model):
     name = models.CharField(max_length=255,verbose_name='Название')
-    description = models.TextField(max_length=255,verbose_name='Описание',blank=True,null=True)
+    description = models.TextField(verbose_name='Описание',blank=True,null=True)
     star = models.IntegerField(default=0)
     image = models.ImageField(upload_to='Hotel/')
     price = models.IntegerField(default=0)
@@ -59,7 +59,7 @@ class HotelToCity(models.Model):
 class FlightCompany(models.Model):
 
     name = models.CharField(max_length=255,verbose_name='Название')
-    description = models.TextField(max_length=255,verbose_name='Описание',blank=True,null=True)
+    description = models.TextField(verbose_name='Описание',blank=True,null=True)
     image = models.ImageField(upload_to='FlightCompany/')
 
     def __str__(self) -> str:

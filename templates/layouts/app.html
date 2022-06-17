@@ -25,7 +25,7 @@
                     {% if request.user.is_authenticated %}
                     <li class="header__menu-item"><a href="{% url 'orders' %}" class="header__menu-link">Мои заказы</a></li>
                     {% endif %}
-                    <li class="header__menu-item"><a href="" class="header__menu-link">Контакты</a></li>
+                    <li class="header__menu-item"><a href="{% url 'contacts' %}" class="header__menu-link">Контакты</a></li>
                 </ul>
                 {% if request.user.is_authenticated %}
                 <ul class="header__auth-menu header__menu">
@@ -55,7 +55,7 @@
         <div class="footer__row container">
             <div style="display:flex; align-items: center;">
                 <div class="footer__logo">Саяхатта</div>
-                <div class="footer__item" style="color:#828282; font-size: 13px;">Контакты</div>
+                <div><a  class="footer__item" style="color:#828282; font-size: 13px;" href="{% url 'contacts' %}">Контакты</a></div>
             </div>
             <div style="color:#828282; font-size: 13px;">
                 © 2022 Саяхатта, Все права защищены.

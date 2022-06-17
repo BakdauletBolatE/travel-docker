@@ -66,6 +66,11 @@ def login_user(request):
 
     return render(request,'auth/login.html')
 
+
+
+def contacts(request):
+    return render(request,'main/contacts.html')
+
 def register_user(request):
 
     if request.method == 'POST':

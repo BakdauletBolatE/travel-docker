@@ -1,6 +1,6 @@
 from .views import (main,search_view,order_event,login_user,
                 logout_view,my_orders,delete_my_order,
-                register_user,singleView)
+                register_user,singleView,contacts)
 from django.urls import path
 
 urlpatterns = [
@@ -12,5 +12,6 @@ urlpatterns = [
     path('my-orders/',my_orders,name="orders"),
     path('delete-order/<int:id>/',delete_my_order,name="deleteOrder"),
     path('search-list/',search_view,name="search_view"),
-    path('createOrder/',order_event,name="createOrder")
+    path('createOrder/',order_event,name="createOrder"),
+    path('contacts/',contacts,name='contacts')
 ]
